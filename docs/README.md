@@ -1,3 +1,5 @@
-# Love2d Template
+# Circles
 
-My repo template for [Love2d](https://love2d.org) games
+Uses [Love2d](https://love2d.org) to fill the screen with circles
+
+![Circles](circles.gif?raw=true "Circles")

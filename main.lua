@@ -2,14 +2,13 @@ updateFreq = .1
 updateDiff = 0
 max = 500
 maxDiam = love.graphics.getHeight() / 2
+debug = false
 
 c = love.graphics.newCanvas(love.graphics.getWidth(), love.graphics.getHeight())
 
 function love.load() end
 
 function love.update(dt)
-    if love.keyboard.isDown('escape') then love.event.push('quit') end
-
     updateDiff = updateDiff + dt
     if (updateDiff > updateFreq) then
         updateDiff = 0
@@ -21,6 +20,13 @@ function love.draw()
     love.graphics.setColor(1, 1, 1)
 
     love.graphics.draw(c)
+
+    if debug then
+        love.graphics.setColor(1, 1, 1)
+        love.graphics.print("DT: " .. tostring(love.timer.getDelta()), 10, 10)
+        love.graphics.print("FPS: " .. tostring(love.timer.getFPS()), 10, 20)
+        love.graphics.print("updateFreq: " .. tostring(updateFreq), 10, 30)
+    end
 end
 
 function addCircle()
@@ -33,4 +39,20 @@ function addCircle()
 
     love.graphics.setColor(r, g, b, 1)
     love.graphics.circle("fill", x, y, size / 2)
+end
+
+function love.keypressed(key, scancode, isrepeat)
+    if key == 'd' and not isrepeat then debug = not debug end
+
+    if key == 'escape' then
+        love.event.push('quit')
+    elseif key == 'r' and not isrepeat then
+        c = love.graphics.newCanvas(love.graphics.getWidth(),
+                                    love.graphics.getHeight())
+    elseif key == 'up' then
+        updateFreq = updateFreq + .1
+    elseif key == 'down' then
+        updateFreq = updateFreq - .1
+        if updateFreq < 0 then updateFreq = 0 end
+    end
 end
